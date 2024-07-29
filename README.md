@@ -10,12 +10,76 @@ The dataset involves raw EEG signal files recorded in BIOSEMI Active Two Brain r
 <table>
   <tr>
     <td><img src="EEG_3D_Rotation.gif" alt="Sample Brain map" width="400"/></td>
+    <td><img src="cap_32_rotate_large.gif" alt="EEG collection" width="400"/></td>
+  </tr>
+</table>
+
+## Vital information about the signals
+
+These functions of these electrodes are explained in the below table, along with the positioning of these electrodes on the human brain following the international standard 10-20 system.
+
+| Electrode | Description         | Targeted Brain Area                                                                           |
+|-----------|---------------------|-----------------------------------------------------------------------------------------------|
+| Fp1, Fp2  | Frontopolar         | Frontal lobe, near the forehead, dealing with executive functions and voluntary movement      |
+| AF3, AF4  | Anterior Frontal    | Frontal lobe, responsible for high level cognitive functions                                  |
+| F7, F8    | Frontal             | Lateral frontal areas dealing with motor function and language                                |
+| F3, F4    | Frontal             | Central frontal areas dealing with decision making and problem solving                        |
+| FC1, FC2, FC5, FC6 | Frontocentral | Bridge between frontal and central areas, associated with motor control                    |
+| T7, T8    | Temporal            | Middle temporal areas responsible for memory and hearing                                      |
+| C3, C4    | Central             | Central brain associated with sensorimotor coordination                                       |
+| CP1, CP2, CP5, CP6 | Centroparietal | Linking central and parietal lobes, vital for sensory integration                         |
+| P7, P8    | Parietal            | Lateral parietal areas involved with orientation and perception                               |
+| P3, P4    | Parietal            | Central parietal areas crucial for sensory input and spatial orientation                      |
+| Pz        | Parietal midline    | Top of the head responsible for somatosensory processing                                      |
+| PO3, PO4  | Parietal Occipital  | Near the visual cortex, important for visual processing                                       |
+| O1, O2    | Occipital           | Back of the head, primary visual processing area                                              |
+| Oz        | Occipital midline   | Central occipital, key in visual data processing                                              |
+| VEO+, VEO-| Vertical EOG        | Vertical eye movement                                                                         |
+| HEOL, HEOR| Horizontal EOG      | Horizontal eye movement                                                                       |
+| FCz, Cz   | Central midline     | Central area of the head involved for motor function                                          |
+| Iz        | Inion               | Near the back of the skull, used for referencing the EEG                                      |
+| M1, M2    | Mastoid reference   | Located near the mastoids behind the ears (left and right earlobes), used for referencing the EEG signals |
+| B9, B10   | Additional          | Supplementary electrodes for specific studies                                                 |
+
+<table>
+  <tr>
     <td><img src="Project pictures/10-20 system.png" alt="EEG System" width="400"/></td>
   </tr>
 </table>
 
-
 ## Methodology
+### Signal preprocessing - (Preprocessing pipeline.m)
+**Software:** MATLAB (EEGLAB toolbox)
+
+1. The raw EEG dataset for a single user, for a single session is imported into the EEGLAB on MATLAB.
+2. Two marker files: Artifact rejection and ocular correction are also imported for that user. These files are obtained after visualizing the signals on an external software, called Brain Vision Analyzer, which is capable of recognizing the noise in the data due to muscle movements, eye blinks, nose twitches etc.
+3. Before applying the marker information for artifact rejection, we visualize the raw EEG data to make sure that the signals are static and ready for preprocessing.
+4. However, on visualizing the EEG signals, on a single plot, a trend is observed in the data. This means that the brain signals aren’t as static as required for the analysis. Hence, we decide to re-reference the EEG signals, based on the mastoids (M1 and M2) signals, which are referred to as ground signals, and correspond to the left and right earlobe respectively.
+5. During re-referencing, it is important to exclude non-brain activity signals from the analysis. Hence, certain EEG channels like VEO+, VEO-, HEOR, HEOL, B9 and B10 are excluded from the data, during re-referencing, but not dropped due to their utility during ICA decomposition.
+6. The re-referenced signal shows a much better static trend and then gets pre-processed by applying the marker information of artifact rejection and ocular correction.
+7. This final signal is then decomposed using Independent Component Analysis, in order to clean out any extra noise.
+8. The data contained in the final clean signal is written into a .csv file, as channel data matrix and time vector.
+
+<table>
+  <tr>
+    <td><img src="Project pictures/Raw EEG signal.png" alt="Raw EEG signal" width="400"/></td>
+    <td><img src="Project pictures/Preprocessed EEG signal.png" alt="Preprocessed EEG signal" width="400"/></td>
+  </tr>
+</table>
+
+#### Observations:
+
+1. **Baseline correction:** The raw EEG signal has baseline drifts moving upwards with time. These have been corrected in the pre-processed signal by re-referencing the channel signals.
+2. **Artifact removal:** Noise due to artifacts such as eye blink (VEOG), cardiac signals, and muscle contractions have been filtered out in the second image as evident by the absence of sharp spikes, resulting in a much more stable pattern of brain activity.
+3. **Normalized amplitude fluctuations:** Amplitudes are normalized to a certain range to avoid variations due to electrode impedance, in the second signal.
+
+The signal-to-noise ratio has been increased to approximately 17%. This difference in the two signals is further amplified on illustrating the topographical map of the brain for raw and pre-processed data.
+<table>
+  <tr>
+    <td><img src="Project pictures/2D brain map.png" alt="2D brain map" width="400"/></td>
+    <td><img src="Project pictures/3D brain map.png" alt="3D brain map" width="400"/></td>
+  </tr>
+</table>
 
 ### Data Preprocessing
 1. **Brain Rate Calculation:**
