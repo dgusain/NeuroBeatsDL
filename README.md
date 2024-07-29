@@ -183,10 +183,10 @@ The below figure shows a comparison between the brain rates obtained over two se
 - Red line: Brain rate metric during the session without any auditory stimuli
 <table>
   <tr>
-    <td><img src="Project pictures/Correlation map BR.png" alt="Brain rate graph" width="700"/></td>
+    <td><img src="Project pictures/Correlation map BR.png" alt="Brain rate graph" width="600"/></td>
   </tr>
   <tr>
-    <td><img src="Project pictures/Correlation map BM.jpg" alt="Brain map" width="700"/></td>
+    <td><img src="Project pictures/Correlation map BM.jpg" alt="Brain map" width="600"/></td>
   </tr>
 </table>
 
