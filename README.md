@@ -76,10 +76,10 @@ These functions of these electrodes are explained in the below table, along with
 The signal-to-noise ratio has been increased to approximately 17%. This difference in the two signals is further amplified on illustrating the topographical map of the brain for raw and pre-processed data.
 <table>
   <tr>
-    <td><img src="Project pictures/2D brain map.png" alt="2D brain map" width="500"/></td>
+    <td><img src="Project pictures/2D brain map.png" alt="2D brain map" width="700"/></td>
   </tr>
   <tr>
-    <td><img src="Project pictures/3D brain map.png" alt="3D brain map" width="500"/></td>
+    <td><img src="Project pictures/3D brain map.png" alt="3D brain map" width="700"/></td>
   </tr>
 </table>
 
