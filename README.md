@@ -129,7 +129,8 @@ Power Spectral Density (PSD) is a function that describes the power distribution
 - Provides a quantitative measure of signal power across frequencies which is essential to assess brain activity linked to different neurological conditions.
 - Offers a more condensed, low dimensional representation of the EEG data hence reducing data complexity while retaining critical information about the signal’s power distribution making it more manageable and interpretable.
 
-#### Formula for Brain rate calculation
+### Brain rate calculation
+#### Formula
 
 Brain rate is defined as a sum of the mean frequencies of brain oscillations weighted over the EEG bands (delta, theta, alpha, beta, and gamma) of the power spectrum for each channel.
 
@@ -150,7 +151,7 @@ In simple terms, \( P(b,ch) \) is the power ratio of a specific EEG frequency ba
 
 \( P(b,ch) \) shows the contribution of the band b to the channel’s overall signal. The higher the ratio, the more dominant that particular frequency band is in the channel’s signal.
 
-#### Methodology for brain rate calculation
+#### Methodology
 
 1. Pre-processed EEG datasets (after applying artifact rejection and ocular correction) are loaded into MATLAB’s EEGLAB tool.
 2. The EEG data is resampled from 512 Hz to 128 Hz, to reduce the number of samples (brain maps) generated per second, while retaining all crucial information. If we sample to 64 Hz, the Nyquist frequency would be 32 Hz (half of sampling frequency), leading to loss of gamma frequency band data.
@@ -164,14 +165,25 @@ In simple terms, \( P(b,ch) \) is the power ratio of a specific EEG frequency ba
 The sparse nature of incorrect answers in the dataset led to the calculation and employment of brain rate as a continuous metric rather than binary labels, allowing for a more nuanced analysis of the EEG data. This methodology provides a robust framework for understanding and quantifying EEG data in research or clinical settings where standard metrics or labels prove to be inadequate for capturing the complexities of brain activity.
 
 #### Observations: 
-Brain
-
+We can see the correlation between the brain rate metric created and the brain topographical map over a session. The red lines denote the value of the brain rate metric, while the coloured contour lines depict the activity in the participant's brain at that time. 
 <table>
   <tr>
     <td><img src="1003_BR_comparison.png" alt="PPT 1003 brain rate across both sessions" width="700"/></td>
   </tr>
   <tr>
     <td><img src="1066_BR_comparison.png" alt="PPT 1003 brain rate across both sessions" width="700"/></td>
+  </tr>
+</table>
+
+The below figure shows a comparison between the brain rates obtained over two sessions, for two different participants: 1003 and 1066. 
+- Blue line: Brain rate metric during the session with Binaural beats as auditory stimuli 
+- Red line: Brain rate metric during the session without any auditory stimuli
+<table>
+  <tr>
+    <td><img src="Correlation map BR.png" alt="Brain rate graph" width="700"/></td>
+  </tr>
+  <tr>
+    <td><img src="Correlation map BM.jpg" alt="Brain map" width="700"/></td>
   </tr>
 </table>
 
