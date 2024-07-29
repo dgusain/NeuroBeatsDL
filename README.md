@@ -84,13 +84,96 @@ The signal-to-noise ratio has been increased to approximately 17%. This differen
 </table>
 
 ### Data Preprocessing
-1. **Brain Rate Calculation:**
-   - Brain rate is defined as a sum of the mean frequencies of brain oscillations weighted over the EEG bands (delta, theta, alpha, beta, and gamma) of the power spectrum for each channel.
-   - The EEG data is preprocessed using Fast Fourier Transform (FFT) to transform time-domain signals into the frequency domain.
-   - Power Spectral Density (PSD) is computed to quantify the power present at each frequency component of the EEG signal.
+#### Problem with existing labels
+The dataset’s cognitive ability questions proved to be an imbalanced label for the EEG processed brain maps. This was because each participant would get on average, only 10 to 20 questions wrong out of 1200 and these wrong answers are scattered throughout the dataset. As a result, the CNN and CNN+LSTM model was unable to learn from the dataset based on the number of correct answered questions as the label. The correct answers were labelled as 1 and wrong answers were labelled as 0. Due to the sparsity of wrong answers, the model is unable to generalize its learning.
 
-2. **Normalization:**
-   - Brain rate values are normalized using the baseline brain rate value computed during the relaxation phase of the session to correct any inherent biases or non-task-related activity.
+#### Defining a novel metric (brain rate) as the label
+
+There was a need to define a single scalar quantity that would describe the EEG data (across 42 channels) for each timestep of the session. Taking inspiration from a novel metric defined in a research paper, we developed a brain rate variable that would be used to describe the data.
+
+<table>
+  <tr>
+    <td><img src="Project pictures/brain rate calculation flowchart.png" alt="Brain Rate Calculation flowchart" width="700"/></td>
+  </tr>
+</table>
+
+The above figure illustrates the steps required to calculate the brain rate for an EEG signal of a user. Before we jump into the methodology of how the brain rate variable is calculated, it is necessary to understand the different frequency bands present in EEG signals, and how they influence the cognitive processes. This literature was essential in determining the weights given to each frequency band while calculating the scalar value of the brain rate.
+
+#### Cognitive EEG frequency bands
+
+The electroencephalogram (EEG) signals are divided into different frequency bands, each associated with different types of brain activity, including cognitive processes. The most important frequency bands for finding cognitive brain activity are:
+
+- **Delta Waves (0.5 to 4 Hz):**
+  Although primarily associated with deep sleep, delta waves can also be related to certain cognitive processes in some pathological states.
+- **Theta Waves (4 to 8 Hz):**
+  Theta waves are often linked to memory, learning, and navigation. They are particularly prominent during meditative, drowsy, or sleeping states but also appear during deep emotional experiences and cognitive activities that require concentration and focus.
+- **Alpha Waves (8 to 12 Hz):**
+  Alpha waves are associated with a state of relaxed alertness and rest. They become prominent when a person is calm and physically and mentally relaxed but still alert. Alpha activity is often related to the brain's idle state or resting state and has been linked to creativity and the reduction of depression.
+- **Beta Waves (12 to 30 Hz):**
+  Beta waves are associated with active, analytical thought and alertness. This frequency band is most commonly observed during active conversation, problem-solving, decision-making, and focused mental activity. High levels of beta activity are associated with stress, anxiety, or excitement.
+- **Gamma Waves (30 Hz and above):**
+  Gamma waves are associated with higher mental activity, including perception, problem-solving, fear, and consciousness. High-frequency gamma activity is linked to the processing of information from different brain areas simultaneously, essentially integrating thoughts and experiences.
+
+Each of these frequency bands plays a role in different aspects of cognitive processing and brain activity. For cognitive tasks and states of consciousness, alpha, beta, and gamma waves are particularly significant, as they are directly related to how we think, learn, and process information. However, the importance of a specific band can vary depending on the type of cognitive activity being performed.
+
+#### Fast Fourier transforms & Power spectral density
+
+Fast Fourier transforms is a vital mathematical tool used in analysing EEG data that transforms time-domain signals into frequency domain. This transformation is crucial because it:
+
+- Enables spectral analysis of human brain’s electrical activity in terms of frequency components.
+- Efficiently computes the Discrete Fourier Transform (DFT) of a sequence which contributes significantly to handling large volumes of EEG data for quick effective analysis.
+- Provides insight into patterns that aren’t visible in the time domain, for example the brain states associated with alertness are associated with certain frequency bands (alpha waves for relaxation, beta waves for alertness).
+
+Power Spectral Density (PSD) is a function that describes the power distribution of a signal across various frequencies. It is computed from FFT results to quantify the power present at each frequency component of the EEG signal. PSD is necessary as it:
+
+- Provides a quantitative measure of signal power across frequencies which is essential to assess brain activity linked to different neurological conditions.
+- Offers a more condensed, low dimensional representation of the EEG data hence reducing data complexity while retaining critical information about the signal’s power distribution making it more manageable and interpretable.
+
+#### Formula for Brain rate calculation
+
+Brain rate is defined as a sum of the mean frequencies of brain oscillations weighted over the EEG bands (delta, theta, alpha, beta, and gamma) of the power spectrum for each channel.
+
+\[ BR = \sum_{ch=1}^n \sum_{b=1}^5 (f_b \cdot P(b,ch)) \]
+
+- \( b \) is the index of the frequency bands (1 for delta, 2 for theta, 3 for alpha, 4 for beta, 5 for gamma).
+- \( f_b \) is the weight associated with each frequency band b. This is the mean frequency of that band (given in Hz).
+- \( P(b,ch) \) is the mean amplitude of the electrical potential for band b of each channel ch over the mean of all its amplitudes.
+
+In simple terms, \( P(b,ch) \) is the power ratio of a specific EEG frequency band over a channel.
+
+\[ P(b,ch) = \frac{avg_b(FFT_{ch})}{avg(FFT_{ch})} \]
+
+- \( P(b,ch) \) is the power ratio for frequency band b and channel ch.
+- \( FFT_{ch} \) is the vector containing the amplitudes of the FFT transformed channel.
+- \( avg_b(FFT_{ch}) \) is the average (centroid) of the amplitudes within the frequency band b from the FFT-transformed channel ch. It is the centroid of the band’s amplitudes within that frequency range.
+- \( avg(FFT_{ch}) \) is the average of all amplitudes across the entire spectrum from the FFT-transformed channel ch.
+
+\( P(b,ch) \) shows the contribution of the band b to the channel’s overall signal. The higher the ratio, the more dominant that particular frequency band is in the channel’s signal.
+
+#### Methodology for brain rate calculation
+
+1. Pre-processed EEG datasets (after applying artifact rejection and ocular correction) are loaded into MATLAB’s EEGLAB tool.
+2. The EEG data is resampled from 512 Hz to 128 Hz, to reduce the number of samples (brain maps) generated per second, while retaining all crucial information. If we sample to 64 Hz, the Nyquist frequency would be 32 Hz (half of sampling frequency), leading to loss of gamma frequency band data.
+3. The Fast Fourier transform is calculated for each channel of the EEG data.
+4. The five distinct frequency bands are isolated using bandpass filtering. This separation of the data is essential for analysing specific ranges of brain activity related to different states.
+5. Power spectral density of EEG data is calculated for each one-second epoch within the filtered frequency bands, hence quantifying the power present at different frequencies.
+6. Centroids for each frequency band are computed which serve as baseline weights, helpful in capturing the dominant frequency within the band during each epoch.
+7. Brain rate is calculated for each epoch by weighting the centroids of the frequency bands by their relative power contributions. The formula used effectively integrates information across the frequency spectrum to provide a singular measure of brain activity.
+8. Normalization of brain rates by subtraction of baseline brain rate: The cognitive session brain rate values are normalized using the baseline brain rate value computed during the relaxation phase of the session. This is done to correct any inherent biases or non-task related activity.
+
+The sparse nature of incorrect answers in the dataset led to the calculation and employment of brain rate as a continuous metric rather than binary labels, allowing for a more nuanced analysis of the EEG data. This methodology provides a robust framework for understanding and quantifying EEG data in research or clinical settings where standard metrics or labels prove to be inadequate for capturing the complexities of brain activity.
+
+#### Observations: 
+Brain
+
+<table>
+  <tr>
+    <td><img src="1003_BR_comparison.png" alt="PPT 1003 brain rate across both sessions" width="700"/></td>
+  </tr>
+  <tr>
+    <td><img src="1066_BR_comparison.png" alt="PPT 1003 brain rate across both sessions" width="700"/></td>
+  </tr>
+</table>
 
 ### Neural Network Architectures
 1. **Model 1: CNN+LSTM2D**
