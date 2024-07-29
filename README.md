@@ -7,12 +7,13 @@ This project integrates deep learning with image processing and computer vision 
 ## Dataset
 
 The dataset involves raw EEG signal files recorded in BIOSEMI Active Two Brain recorder and exported in (.BDF) format. The data consists of deidentified data for 80 participants, recorded for two sessions of 30 minutes each, where one session had just pure tone, while the other session had binaural beats. The EEG signals have a sampling frequency of 512 Hz. Each session consisted of 33 minutes, where the participant had to answer 1200 cognitive ability questions, and their brain activity was recorded via EEG, and their wrong answers were counted. These 1200 questions had a stimulus window of 1500 ms and a response window of 150 ms, hence the total duration of the question was 1.65 seconds.
-<div style="float: left; width: 20%;">
-    <img src="EEG_3D_Rotation.gif" alt="Sample Brain map" style="width:100%;">
-</div>
-
-<div style="float: right; width: 20%;">
-    <img src="Project pictures/10-20 system.png" alt="EEG System" style="width:100%;">
+<div style="width: 100%; overflow: hidden;">
+    <div style="float: left; width: 20%;">
+        <img src="EEG_3D_Rotation.gif" alt="Sample Brain map" style="width:100%;">
+    </div>
+    <div style="float: right; width: 20%;">
+        <img src="Project pictures/10-20 system.png" alt="EEG System" style="width:100%;">
+    </div>
 </div>
 
 
