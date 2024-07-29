@@ -207,7 +207,7 @@ The below figure shows a comparison between the brain rates obtained over two se
 ### Observations from Model 1: CNN+LSTM2D
 <table>
   <tr>
-    <td><img src="Project pictures/CNN_LSTM_result_alpha_beta_delta.jpg" alt="CNN_LSTM result" width="800"/></td>
+    <td><img src="Project pictures/CNN_LSTM_result_alpha_beta_delta.jpg" alt="CNN_LSTM result" width="600"/></td>
   </tr>
 </table>
 - The model consistently captures the general structure and spatial distribution of activity across the human brain.
