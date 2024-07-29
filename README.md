@@ -62,8 +62,10 @@ These functions of these electrodes are explained in the below table, along with
 
 <table>
   <tr>
-    <td><img src="Project pictures/Raw EEG signal.png" alt="Raw EEG signal" width="500"/></td>
-    <td><img src="Project pictures/Preprocessed EEG signal.png" alt="Preprocessed EEG signal" width="500"/></td>
+    <td><img src="Project pictures/Raw EEG signal.png" alt="Raw EEG signal" width="800"/></td>
+  </tr>
+  <tr>
+    <td><img src="Project pictures/Preprocessed EEG signal.png" alt="Preprocessed EEG signal" width="800"/></td>
   </tr>
 </table>
 
