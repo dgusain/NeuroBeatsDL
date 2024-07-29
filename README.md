@@ -11,6 +11,9 @@ The dataset involves raw EEG signal files recorded in BIOSEMI Active Two Brain r
     <img src="EEG_3D_Rotation.gif" alt="Sample Brain map" style="width:100%;">
 </div>
 
+<div style="float: right; width: 20%;">
+    <img src="Project pictures/10-20 system.png" alt="EEG System" style="width:100%;">
+</div>
 
 
 ## Methodology
