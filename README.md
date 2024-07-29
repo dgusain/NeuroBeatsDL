@@ -134,7 +134,7 @@ Power Spectral Density (PSD) is a function that describes the power distribution
 
 Brain rate is defined as a sum of the mean frequencies of brain oscillations weighted over the EEG bands (delta, theta, alpha, beta, and gamma) of the power spectrum for each channel.
 
-\[ BR = \sum_{ch=1}^n \sum_{b=1}^5 (f_b \cdot P(b,ch)) \]
+$$ BR = \sum_{ch=1}^n \sum_{b=1}^5 (f_b \cdot P(b,ch)) $$
 
 - \( b \) is the index of the frequency bands (1 for delta, 2 for theta, 3 for alpha, 4 for beta, 5 for gamma).
 - \( f_b \) is the weight associated with each frequency band b. This is the mean frequency of that band (given in Hz).
@@ -142,7 +142,7 @@ Brain rate is defined as a sum of the mean frequencies of brain oscillations wei
 
 In simple terms, \( P(b,ch) \) is the power ratio of a specific EEG frequency band over a channel.
 
-\[ P(b,ch) = \frac{avg_b(FFT_{ch})}{avg(FFT_{ch})} \]
+$$ P(b,ch) = \frac{avg_b(FFT_{ch})}{avg(FFT_{ch})} $$
 
 - \( P(b,ch) \) is the power ratio for frequency band b and channel ch.
 - \( FFT_{ch} \) is the vector containing the amplitudes of the FFT transformed channel.
@@ -150,6 +150,7 @@ In simple terms, \( P(b,ch) \) is the power ratio of a specific EEG frequency ba
 - \( avg(FFT_{ch}) \) is the average of all amplitudes across the entire spectrum from the FFT-transformed channel ch.
 
 \( P(b,ch) \) shows the contribution of the band b to the channel’s overall signal. The higher the ratio, the more dominant that particular frequency band is in the channel’s signal.
+
 
 #### Methodology
 
@@ -168,10 +169,10 @@ The sparse nature of incorrect answers in the dataset led to the calculation and
 We can see the correlation between the brain rate metric created and the brain topographical map over a session. The red lines denote the value of the brain rate metric, while the coloured contour lines depict the activity in the participant's brain at that time. 
 <table>
   <tr>
-    <td><img src="1003_BR_comparison.png" alt="PPT 1003 brain rate across both sessions" width="700"/></td>
+    <td><img src="1003_BR_comparison.png" alt="PPT 1003 brain rate across both sessions" width="800"/></td>
   </tr>
   <tr>
-    <td><img src="1066_BR_comparison.png" alt="PPT 1003 brain rate across both sessions" width="700"/></td>
+    <td><img src="1066_BR_comparison.png" alt="PPT 1003 brain rate across both sessions" width="800"/></td>
   </tr>
 </table>
 
@@ -180,10 +181,10 @@ The below figure shows a comparison between the brain rates obtained over two se
 - Red line: Brain rate metric during the session without any auditory stimuli
 <table>
   <tr>
-    <td><img src="Correlation map BR.png" alt="Brain rate graph" width="700"/></td>
+    <td><img src="Project pictures/Correlation map BR.png" alt="Brain rate graph" width="700"/></td>
   </tr>
   <tr>
-    <td><img src="Correlation map BM.jpg" alt="Brain map" width="700"/></td>
+    <td><img src="Project pictures/Correlation map BM.jpg" alt="Brain map" width="700"/></td>
   </tr>
 </table>
 
