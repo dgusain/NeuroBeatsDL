@@ -205,17 +205,35 @@ The below figure shows a comparison between the brain rates obtained over two se
 ## Results
 
 ### Observations from Model 1: CNN+LSTM2D
+<table>
+  <tr>
+    <td><img src="Project pictures/CNN_LSTM_result_alpha_beta_delta.jpg" alt="CNN_LSTM result" width="800"/></td>
+  </tr>
+</table>
 - The model consistently captures the general structure and spatial distribution of activity across the human brain.
 - Some noticeable differences indicate that certain areas have not been learned well, particularly in the frontal and occipital regions.
 - Improved alignment in the frontal areas in the second second but discrepancies in the temporal regions.
 - Misjudges the intensity and exact locations of peak activities, particularly in the central and parietal areas.
 
 ### Observations from Model 2: Conditional GAN
+<table>
+  <tr>
+    <td><img src="Project pictures/conditional GAN result.png" alt="Conditional GAN result" width="800"/></td>
+  </tr>
+</table>
 - Generated artifacts are visually distinguishable as irregular, noisy patches that do not conform to typical smooth gradients.
 - The frame generated at T+15 shows an absence of the earlier noted artifacts, indicating a possible stabilization in the model’s predictions.
 - Consistency and smoothness are improved, suggesting that the conditional aspect of the GAN helps guide the generation process.
 
 ### Observations from Model 3: Next Frame Prediction
+<table>
+  <tr>
+    <td><img src="Project pictures/CNN_LSTM_model_3_input_image.png" alt="input image" width="600"/></td>
+  </tr>
+  <tr>
+    <td><img src="Project pictures/CNN_LSTM_model_3_next_frame_prediction.png" alt="Next frame prediciton" width="800"/></td>
+  </tr>
+</table>
 - The model maintains the overall integrity of brain topographical maps but struggles with local precision, particularly in predicting changes in activity intensity.
 - Reasonably effective in capturing the general spatial distribution of brain activity but fails to predict concentrated high activity areas accurately.
 
